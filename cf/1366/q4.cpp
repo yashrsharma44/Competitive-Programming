@@ -3,6 +3,41 @@
 
 using namespace std;
 
+void fillPrime(vector<int> &prime){
+
+	// Using sieve, in O(n) time and returning the smallest prime factor
+	for(int i=1;i<=10000000;i++){
+		prime[i] = i;
+	}
+
+	for(int i=2;i*i<=10000000;i++){
+
+		if(prime[i] == i){
+			for(int j=i*i;j<=10000000;j+=i){
+
+				if(prime[j] == j){
+					prime[j] = i;
+				}
+			}
+		}
+
+	}
+
+}
+
+set<int> primefactor(vector<int> prime, int num){
+
+	set<int> pfactor;
+
+	while(num!=1){
+		pfactor.insert(prime[num]);
+		num /= prime[num];
+	}
+	return pfactor;
+
+}
+
+
 void solve(){
 
 	int n;
@@ -15,43 +50,42 @@ void solve(){
 		a.push_back(vl);
 	}
 
-	set<int> primes;
-	primes.insert({2,3,5,7,11,13,17,19,23,29,31,37,41});
-	map< int, vector<int> >mp;
-	for(int el : a){
+	vector<int> prime(10000000 + 10, -1);
+	fillPrime(prime);
 
-		int elem = el;
-		for(int i=2;i*i<=(1000000);i++){
-			if(elem % i == 0){
-				mp[el].push_back(i);
-				while(elem%i==0){
-					elem = elem / i;
-				}
-			}
-		}
+	// map< int, set<int> >mp;
+	// for(int el : a){
 
-	}
+	// 	// The current implementation takes O(sqrt(n)) for each number
+	// 	// We need a O(logN) implementation
+		
+	// }
+
 	vector<int> d1, d2;
 	for(int el : a){
 
-		vector<int> vv = mp[el];
-		int dd1 = -1, dd2 = -1;
-		for(int i=0;i<vv.size();i++){
-			for(int j=i+1;j<vv.size();j++){
-				if(primes.find(vv[i]+vv[j]) != primes.end()){
-					dd1 = vv[i];
-					dd2 = vv[j];
-				}
-			}
+		set<int> vv = primefactor(prime,el);
+		vector<int> fc;
+		for(int elw : vv){
+			fc.push_back(elw);
 		}
 
-		if(dd1 == -1 || dd2 == -1){
+		if(fc.size() <= 1){
 			d1.push_back(-1);
 			d2.push_back(-1);
-		} else {
-			d1.push_back(dd1);
-			d2.push_back(dd2);
+			continue;
 		}
+
+		int p1 = fc[fc.size()-1];
+		int p2 = 1;
+
+		for(int i=0;i<fc.size()-1;i++){
+			p2 *= fc[i];
+		}
+
+		d1.push_back(p1);
+		d2.push_back(p2);
+
 
 	}
 
