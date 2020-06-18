@@ -88,7 +88,7 @@ void solve()
     rep(i, n)
     {
         set< ll > prime_fac = factor(a[i]);
-        if(prime_fac.size() == 1 || *prime_fac.begin() == a[i])
+        if(prime_fac.size() == 1 )
         {
             ans[i].ff = -1;
             ans[i].ss = -1;

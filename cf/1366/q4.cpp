@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
-#define int long long 
+#define int long long int
 
 using namespace std;
+// const int N = 1e7+7
 
 void fillPrime(vector<int> &prime){
 
@@ -25,7 +26,7 @@ void fillPrime(vector<int> &prime){
 
 }
 
-set<int> primefactor(vector<int> prime, int num){
+set<int> primefactor(vector<int> &prime, int num){
 
 	set<int> pfactor;
 
@@ -85,7 +86,6 @@ void solve(){
 
 		d1.push_back(p1);
 		d2.push_back(p2);
-
 
 	}
 
