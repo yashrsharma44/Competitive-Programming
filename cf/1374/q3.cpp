@@ -28,29 +28,18 @@ void solve(){
 	string s;
 	cin>>s;
 
-	if(check(s)){
-		cout<<0<<endl;
-		return;
-	}
-
-	int min_ = n;
-	string ss = s;
-	for(int i=0;i<n;i++){
-		
-		string ss = s.substr(0,i);
-		string tt = s.substr(i+1);
-
-		string nm = ss + tt;
-		cout<<nm<<endl;
-		if(check(nm+s[i])){
-			min_ = min(min_, n - i);
-		} else if(check(s[i] + nm)){
-			min_ = min(min_, i);
+	int cnt = 0;
+	int ans = 0;
+	for(char c:s){
+		if(c==')'){
+			cnt-=1;
+		}else{
+			cnt+=1;
 		}
+		ans = min(ans, cnt);
 	}
 
-
-	cout<<min_<<endl;
+	cout<<max(0LL, -ans)<<endl;
 
 }
 
