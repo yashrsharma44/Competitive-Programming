@@ -5,6 +5,35 @@ using namespace std;
 
 void solve(){
 
+	int n,r;
+	cin>>n>>r;
+
+	int sum = 0;
+	
+
+	for(int i=1;i<=r;i++){
+
+		int k = n % i;
+		sum += (i - k + 1) / 2;
+	}
+
+	if(n%r!=0){
+		int times = n / r;
+		sum = sum * times;		
+		
+		int rem = n % r;
+		for(int i=1;i<=rem;i++){
+			int k = n % i;
+			sum += (i - k + 1) / 2;
+		}
+
+
+	}
+
+
+	
+	cout<<sum<<endl;
+
 }
 
 int32_t main(){
