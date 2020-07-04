@@ -5,22 +5,22 @@ using namespace std;
 
 void solve(){
 
-	int n,r;
-	cin>>n>>r;
-
-	if(n <= r){
-		int ans = (((n)*(n-1)) / 2) + 1;
-		cout<<ans<<endl;
-	} else {
-		int ans = ((r)*(r+1))/2;
-		cout<<ans<<endl;
+	int n;
+	cin>>n;
+	vector<int> a;
+	int nn = n;
+	while(nn--){
+		int vl;
+		cin>>vl;
+		a.push_back(vl);
 	}
-
-
-	
-	// cout<<sum<<endl;
-
+	sort(a.rbegin(), a.rend());
+	for(int el : a){
+		cout<<el<<" ";
+	}
+	cout<<endl;
 }
+
 
 int32_t main(){
 

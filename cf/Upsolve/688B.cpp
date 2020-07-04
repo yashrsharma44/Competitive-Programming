@@ -5,22 +5,13 @@ using namespace std;
 
 void solve(){
 
-	int n,r;
-	cin>>n>>r;
-
-	if(n <= r){
-		int ans = (((n)*(n-1)) / 2) + 1;
-		cout<<ans<<endl;
-	} else {
-		int ans = ((r)*(r+1))/2;
-		cout<<ans<<endl;
-	}
-
-
-	
-	// cout<<sum<<endl;
-
+	string s;
+	cin>>s;
+	cout<<s;
+	reverse(s.begin(), s.end());
+	cout<<s<<endl;
 }
+
 
 int32_t main(){
 
@@ -29,8 +20,8 @@ int32_t main(){
 	cout.tie(NULL);
 
 	int t;
-	cin>>t;
-	// t = 1;
+	// cin>>t;
+	t = 1;
 
 	while(t--){
 		solve();
