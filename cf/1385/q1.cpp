@@ -6,7 +6,23 @@ using namespace std;
 
 void solve(){
 
+	vector<int> a(3,0);
+	cin>>a[0]>>a[1]>>a[2];
+	vector<int> aa(a);
+	sort(aa.begin(), aa.end());
 
+	if(aa[0] == aa[1] && aa[1] == aa[2]){
+		cout<<"YES"<<endl;
+		cout<<aa[0]<<" "<<aa[0]<<" "<<aa[0]<<endl;
+		return;
+	}
+
+	if(aa[1] == aa[2]){
+		cout<<"YES"<<endl;
+		cout<<aa[2]<<" "<<aa[0]<<" 1"<<endl;
+		return;
+	}
+	cout<<"NO"<<endl;
 
 }
 
