@@ -4,26 +4,7 @@
 using namespace std;
 
 void solve(){
-
-
-	int n,k;
-	cin>>n>>k;
-
-	vector<int>a;
-	int nn = n;
-	while(nn--){
-		int vl;
-		cin>>vl;
-		a.push_back(vl);
-	}
-
-	int l = 1, r = 1e9+7;
-	while(l < r){
-
-		int mid = l + (r - l )/ 2;
-		
-	}
-
+	
 
 }
 

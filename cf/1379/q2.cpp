@@ -5,7 +5,21 @@ using namespace std;
 
 void solve(){
 
+	int l,r,m;
+	cin>>l>>r>>m;
 
+	for(int i=l;i<=r;i++){
+
+		int k = m % i;
+		cout<<k<<endl;
+		int n = m / i;
+		if(n > 0 && k >= 0 && k <= (r-l)){
+			cout<<i<<" "<<(l+k)<<" "<<l<<endl;
+			return;
+		}
+	}
+
+	cout<<l<<" "<<l<<" "<<(2*l-m)<<endl;
 
 }
 
