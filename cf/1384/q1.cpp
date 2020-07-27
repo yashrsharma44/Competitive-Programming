@@ -14,21 +14,16 @@ void solve(){
 		cin>>vl;
 		a.push_back(vl);
 	}
-	char c = 'a';
-	vector<string> ans;
-	string s = "";
-	int z = 0;
-	while(z < n && a[z] == 0){
-		string xx(1, c);
-		ans.push_back(xx);
-		c++;
-		z++;
-	}
-
-	for(int i=z+1;i<n-1;i++){
-		
-	}
 	
+	string s = "";
+	for(int k=0;k<200;k++){
+		s+='a';
+	}
+	cout<<s<<endl;
+	for(int el : a){
+		s[el] = s[el] == 'a' ? 'b' : 'a';
+		cout<<s<<endl;
+	}
 
 }
 
