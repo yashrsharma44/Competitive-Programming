@@ -1,18 +1,11 @@
 #include <bits/stdc++.h>
+#define MOD 998244353
 #define int long long 
 
 using namespace std;
 
 void solve(){
-	
-	int l,r;
-	cin>>l>>r;
-	int ans = 2*l;
-	if(ans <= r){
-		cout<<l<<" "<<ans<<endl;
-		return;
-	}
-	cout<<-1<<" "<<-1<<endl;
+
 	
 }
 
