@@ -6,6 +6,24 @@ using namespace std;
 
 void solve(){
 
+	int n;
+	cin>>n;
+	int k = 0;
+	if(n%4 == 0){
+		k = n/4;
+	} else {
+		k = (n/4) + 1;
+	}
+
+	string ans="";
+	for(int i=0;i<k;i++){
+		ans+="8";
+	}
+	n -= k;
+	for(int i=0;i<n;i++){
+		ans = "9" + ans;
+	}
+	cout<<ans<<endl;
 	
 }
 
