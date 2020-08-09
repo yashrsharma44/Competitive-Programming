@@ -6,21 +6,10 @@ void solve(){
 
 	int n;
 	cin>>n;
-	vector<int> a;
-	while(n--){
-		int vl;
-		cin>>vl;
-		a.push_back(vl);
-	}
-	sort(a.begin(), a.end());
-	for(int i=1;i<a.size();i++){
-		if(abs(a[i] - a[i-1]) > 1){
-			cout<<"NO"<<endl;
-			return;
-		}
-	}
 
-	cout<<"YES"<<endl;
+	int ans = (n+2)/2;
+	cout<<ans<<endl;
+
 
 }
 
