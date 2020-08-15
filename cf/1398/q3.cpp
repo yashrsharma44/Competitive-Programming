@@ -5,7 +5,25 @@ using namespace std;
 
 void solve(){
 
-	
+	int n;
+	cin>>n;
+	string s;
+	cin>>s;
+	vector<int> pre(n+1, 0);
+	for(int i=0;i<n;i++){
+		pre[i+1] = pre[i] + (s[i] - '0');
+	}
+	map<int,int> mp;
+	mp[0] = 1;
+	int count = 0;
+	for(int i=1;i<=n;i++){
+		int val = i - (pre[i]);
+		if(mp.count(val) > 0){
+			count += mp[val];
+		}
+		mp[val]++;
+	}
+	cout<<count<<endl;
 
 }
 
