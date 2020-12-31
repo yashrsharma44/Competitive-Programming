@@ -5,6 +5,25 @@ using namespace std;
 
 void solve(){
 
+	int n; cin>>n;
+	map<vector<int>, int> mp;
+
+	int nn = n;
+	while(nn--){
+		int u, v; cin>>u>>v;
+		mp[{u, v}] += 1;
+	}
+
+	int max_ = 0;
+	for(auto entry : mp){
+		max_ = max(max_, entry.second);
+	}
+
+	cout<<max_<<endl;
+
+
+
+
 }
 
 int32_t main(){

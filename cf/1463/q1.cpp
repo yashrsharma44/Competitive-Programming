@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #define int long long 
+
 using namespace std;
 #define MAX 1000005
 
@@ -14,8 +15,8 @@ int32_t main(){
 	cout.tie(NULL);
 
 	int t;
-	// cin>>t;
-	t = 1;
+	cin>>t;
+	// t = 1;
 
 	while(t--){
 		solve();
