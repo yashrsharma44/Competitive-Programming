@@ -26,7 +26,11 @@ void solve(){
 		}
 	}
 	// cout<<pos<<endl;
-	cout<<(pos-(k-1) + 1)<<endl;
+	if(pos == 0) {
+		cout<<1<<endl;
+		return;
+	}
+	cout<<(pos + 1 - (k - 1))<<endl;
 
 }
 
