@@ -6,7 +6,23 @@ using namespace std;
 
 void solve(){
 
-	
+	int n; cin>>n;
+	if(n == 1){
+		cout<<9<<endl;
+		return;
+	}
+	if(n==2){
+		cout<<98<<endl;
+		return;
+	}
+	int ctr = 9;
+	cout<<98;
+	for(int i=0;i<n-2;i++){
+		cout<<((ctr)%10);
+		ctr++;
+	}
+
+	cout<<endl;
 	
 }
 
