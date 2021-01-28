@@ -1,28 +1,47 @@
 #include <bits/stdc++.h>
 #define int long long 
-#define MOD 1000000007
+#define MOD 100000000
 using namespace std;
+
+int memo[105][105][12][12];
+
+int dp(int n1, int n2, int &k1, int &k2, int p1, int p2){
+	if(n1 == 0 && n2 == 0){
+		return 1;
+	}
+
+	if(memo[n1][n2][p1][p2] != -1) return memo[n1][n2][p1][p2];
+	int ans = 0;
+	if(n1 > 0 && p1 > 0){
+		ans += dp(n1-1, n2, k1, k2, p1-1, k2);
+		ans %= MOD;
+	}
+
+	if(n2 > 0 && p2 > 0){
+		ans += dp(n1, n2-1, k1,k2, k1, p2-1);
+		ans %= MOD;
+	}
+
+	return memo[n1][n2][p1][p2] = ans;
+}
 
 void solve(){
 
-	int n1,n2,k1,k2;
-	cin>>n1>>n2>>k1>>k2;
-
-	vector<int> dp(n1+n2+1, 0);
-
-	dp[1] = (k1 > 1 || k2 > 1) ? 1 : 0;
-	for(int i=1;i<=n1+n2;i++){
-
-		if(i >= k1){
-			dp[i] += dp[i - k1];
+	for(int i=0;i<105;i++){
+		for(int j=0;j<105;j++){
+			for(int k=0;k<12;k++){
+				for(int l=0;l<12;l++){
+					memo[i][j][k][l] = -1;
+				}
+			}
 		}
-		if(i >= k2){
-			dp[i] += dp[i - k2];
-		}
-
 	}
-	cout<<dp[n1+n2]<<endl;
 
+	int n1, n2, k1, k2; cin>>n1>>n2>>k1>>k2;
+
+	int ans = dp(n1, n2, k1, k2, k1, k2);
+	ans = ans % MOD;
+	cout<<ans<<endl;
 }
 
 int32_t main(){

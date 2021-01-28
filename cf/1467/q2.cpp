@@ -4,14 +4,21 @@ using namespace std;
 
 #define MAX 1000005
 
+int score(vector<int> &A, int i){
+	int n = A.size();
+	if(i > 0 && i+1 < n && A[i-1] > A[i] && A[i+1] > A[i]) return 1;
+	if(i > 0 && i+1 < n && A[i-1] < A[i] && A[i+1] < A[i]) return 1;
+	return 0;
+}
+
 void solve(){
 
 	int n; cin>>n;
-	vector<int> a;
+	vector<int> A;
 	int nn = n;
 	while(nn--){
 		int u; cin>>u;
-		a.push_back(u);
+		A.push_back(u);
 	}
 
 	if(n <= 3){
@@ -19,33 +26,43 @@ void solve(){
 		return;
 	}
 
-	vector<int> post;
-	post.push_back(0);
-	post.push_back(0);
-	for(int i=n-1;i>=2;i--){
-		if((a[i-2] > a[i-1] && a[i-1] < a[i]) || (a[i-2] < a[i-1] && a[i-1] > a[i])){
-			post.push_back(post.back()+1);
-		} else {
-			post.push_back(0);
-		}
+	// For each point, we try to modify its value, and check if the new value changes it's count and it's 
+	// neighbour's count. If that happens, we change and adjust our count. Choose the min among all the 
+	// possible values
+	int ans = 0;
+	for(int i=0;i<n;i++){
+		ans += score(A, i);
 	}
-	// for(auto el : post){
-	// 	cout<<el<<" ";
-	// }
-	// cout<<endl;
-	reverse(post.begin(), post.end());
-	int ans = min({post[2], post[3]});
-	int pre = 0;
-	for(int i=2;i+2<n;i++){
-		if((a[i-2] > a[i-1] && a[i-1] < a[i]) || (a[i-2] < a[i-1] && a[i-1] > a[i])){
-			pre+=1;
-			// cout<<pre<<"P";
-		}	
-		// cout<<"pre"<<pre<<"post"<<post[i+2]<<endl;
-		ans = min(ans, pre + post[i+2]);
+	int local = ans;
+	for(int i=0;i<n;i++){
+		int orig = A[i];
+		set<int> elems;
+
+		int without = local - score(A, i-1) - score(A, i) - score(A, i+1);
+
+		if(i > 0){
+			elems.insert(A[i-1] - 1);
+			elems.insert(A[i-1] + 1);
+			elems.insert(A[i-1]);			
+		}
+
+		if(i < n-1){
+			elems.insert(A[i+1] + 1);
+			elems.insert(A[i+1] - 1);
+			elems.insert(A[i+1]);			
+		}
+
+
+		for(auto el : elems){
+			A[i] = el;
+			ans = min(ans, without + score(A, i) + score(A, i-1) + score(A, i+1));
+		}			
+
+		A[i] = orig;
 	}
 
 	cout<<ans<<endl;
+
 }
 
 int32_t main(){
