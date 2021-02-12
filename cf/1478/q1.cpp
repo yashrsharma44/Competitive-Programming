@@ -5,7 +5,20 @@ using namespace std;
 
 void solve(){
 
+	int n; cin>>n;
+	vector<int> a;
 	
+	map<int,int> mp;
+	for(int i=0;i<n;i++){
+		int u; cin>>u;
+		mp[u]++;
+	}
+
+	int ans = 0;
+	for(auto el : mp){
+		ans = max(ans, el.second);
+	}
+	cout<<ans<<endl;
 }
 
 int32_t main(){

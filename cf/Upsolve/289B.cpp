@@ -19,27 +19,35 @@ void solve(){
 
     sort(elems.begin(), elems.end());
     for(int i=0;i<(n*m)-1;i++){
-        if(abs(elems[i] - elems[i+1]) % d != 0){
+        if(abs(elems[i] - elems[i+1]) != 0 && abs(elems[i] - elems[i+1]) % d != 0){
             cout<<-1<<endl;
             return;
         }
     }
     int tot = n*m;
     int cnt = INT_MAX;
-    
-    // a3 - a1 + a3 - a2 + a3 - a4
-    //    4 + 2 + 2
 
+    vector<int> post(tot, 0);
+    for(int i=tot-1;i>0;i--){
+        post[i-1] += post[i] + elems[i];
+    }
+
+    // 2  4  6  8
+    // a1 a2 a3 a4
+    // choose a3 - 
+    // a3 - a1 + a3 - a2 + a3 - a3 + a4 - a3
+    int ans = INT_MAX;
+    int pre = 0;
     for(int i=0;i<tot;i++){
-        // a1 - a2 + a1 - a3 ...
-        int val = ((tot - 1) * elems[i]) - (sum - elems[i]);
-        val *= 2;
-        if(val > 0)
-            cout<<elems[i]<<"-"<<val / d<<endl;
-            cnt = min(cnt, val / d);
+        pre += elems[i];
+        // ((i+1) * a[i] - pre) + (post[i] - (tot - i) * a[i])
+        int val1 = ((i+1) * elems[i]) - pre;
+        int val2 = post[i] - (tot - i - 1) * elems[i];
+        ans = min(ans, (val1 + val2) / d);
+        // cout<<i<<" "<<val1<<" "<<val2<<" "<<ans<<endl;
     }    
 
-    cout<<cnt<<endl;
+    cout<<ans<<endl;
 }
 
 int32_t main(){
