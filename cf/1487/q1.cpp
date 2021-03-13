@@ -5,20 +5,29 @@ using namespace std;
 #define MAX 1000005
 
 void solve(){
-	int x; cin>>x;
-	int ans = -1;
 
-	for(int i=1;i<=10000;i++){
-		int y3 = x - i*i*i;
-		if(y3 >= 0){
-			int y = cbrt(y3);
-			if(y*y*y == y3 && y >= 1){
-				cout<<"YES"<<endl;
-				return;
-			} 
-		}
+	int n; cin>>n;
+	map<int,int> mp;
+	int nn = n;
+	set<int> a;
+	while(nn--){
+		int u; cin>>u;
+		mp[u]++;
+		a.insert(u);
 	}
-	cout<<"NO"<<endl;
+
+	int cnt = 0;
+	int itr = 0;
+	for(auto el : a){
+		if(itr == 0){
+			itr++;
+			continue;
+		}
+		cnt += mp[el];
+		itr++;
+	}
+
+	cout<<cnt<<endl;
 
 }
 

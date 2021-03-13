@@ -1,32 +1,44 @@
-#include<bits/stdc++.h>
-#define ll long long int
+#include <bits/stdc++.h>
+#define int long long
 using namespace std;
 
-void solve(){
+void solve()
+{
 
-	ll a,b,c,d,k;
-	cin>>a>>b>>c>>d>>k;
-
-	double r1 = (double)(a) / c;
-	double r2 = (double)(b) / d;
-
-	ll count1 = ceil(r1);
-	ll count2 = ceil(r2);
-
-	if(count1 + count2 > k){
-		cout<<-1<<endl;
-	} else {
-		cout<<count1<<" "<<count2<<endl;
+	bool isPos = false;
+	int a, b;
+	cin >> a >> b;
+	a = b + a;
+	if (a >= 15 && b >= 8)
+	{
+		cout << 1 << " ";
+		isPos = true;
 	}
-
+	else if (a >= 10 && b >= 3)
+	{
+		cout << 2 << " ";
+		isPos = true;
+	}
+	else if (a >= 3)
+	{
+		cout << 3 << " ";
+		isPos = true;
+	}
+	else
+	{
+		cout << 4 << endl;
+	}
+	cout << endl;
 }
 
-int main(){
+int32_t main()
+{
 
-	ll t;
-	cin>>t;
+	int t = 1;
+	// cin>>t;
 
-	while(t--){
+	while (t--)
+	{
 		solve();
 	}
 }
