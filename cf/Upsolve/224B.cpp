@@ -3,25 +3,17 @@
 #define MOD 100000000
 using namespace std;
 
-class MS{
+class MS {
 public:
-	map<int,int> mp;
-	MS(){
+	map<int, int> mp;
+	MS(){}
+	void add(int el){
+		mp[el]+=1;
 	}
 
-	void add(int k){
-		mp[k] += 1;
-	}
-
-	int count(int k){
-		return mp[k];
-	}
-
-	void erase(int k){
-		mp[k] -= 1;
-		if(mp[k] == 0){
-			mp.erase(k);
-		}
+	void remove(int el){
+		mp[el]-=1;
+		if(mp[el] == 0) mp.erase(el);
 	}
 
 	int size(){
@@ -32,42 +24,24 @@ public:
 void solve(){
 
 	int n,k; cin>>n>>k;
-	vector<int> a;
-	int nn = n;
-	while(nn--){
-		int u; cin>>u;
-		a.push_back(u);
+	vector<int> a(n);
+	for(int i=0;i<n;i++) cin>>a[i];
+
+	int l = -1, r = -1;
+	MS *ms = new MS();
+	int ll = 0;
+	for(int i=0;i<n;i++){
+		ms->add(a[i]);
+		while(ms->size() >= k){
+			l = ll+1; r = i+1;
+			ms->remove(a[ll]);
+			ll++;
+		}
 	}
 
-	MS *ms= new MS();
-	
-	for(auto el : a){
-		ms->add(el);
-	}
+	cout<<l<<" "<<r<<endl;
 
-	if(ms->size() < k){
-		cout<<-1<<" "<<-1<<endl;
-		return;
-	}
 
-	int p1 = n-1;
-	while(ms->size() >= k){
-		ms->erase(a[p1]);
-		p1--;
-	}
-
-	p1++; ms->add(a[p1]);
-	int r = p1;
-
-	int p2 = 0;
-	while(ms->size() >= k){
-		ms->erase(a[p2]);
-		p2++;
-	}
-	p2--;ms->add(a[p2]);
-	int l = p2;
-
-	cout<<l+1<<" "<<r+1<<endl;
 }
 
 int32_t main(){
