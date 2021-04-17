@@ -5,5 +5,7 @@
         "complex": "cpp",
         "cstdlib": "cpp",
         "iostream": "cpp"
-    }
+    },
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "ms-vscode.cpptools",
 }

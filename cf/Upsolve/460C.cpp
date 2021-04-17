@@ -10,64 +10,44 @@ void solve() {
     for (int i = 0; i < n; i++) cin >> a[i];
 
     auto check = [&](int val) {
-        vector<int> less;
-        int mn = INT_MAX;
+        // Lets check the number of delta increase required in
+        // position to match the fact min(a) >= val
+
+        // we also need to take care of the previous increments if done
+        vector<int> st(n, 0);
+        int scurr = 0;
+        int moves = 0;
         for (int i = 0; i < n; i++) {
-            if (a[i] < val) less.push_back(i);
-            mn = min(mn, a[i]);
-        }
-
-        if (mn >= val) return true;
-
-        int cnt = 0;
-        int p1 = 0;
-        map<int, int> mp;
-        while (p1 < less.size()) {
-            int p2 = p1;
-            int min_ = a[less[p1]];
-            while (p2 < less.size() && less[p2] - less[p1] + 1 <= w) {
-                min_ = min(min_, a[less[p2]]);
-                p2++;
+            scurr -= i - w >= 0 ? st[i - w] : 0;
+            if (val - a[i] - scurr > 0) {
+                st[i] = val - a[i] - scurr;
+                scurr += st[i];
+                moves += st[i];
             }
-            // cout << "MIN_" << min_ << " P2: " << p2 << endl;
-            mp[min_] += 1;
-            cnt += 1;
-            p1 = p2;
         }
-        // cout << "DBG: " << val << endl;
-        // cout << "LESS: ";
-        // for (auto el : less) cout << el << " ";
-        // cout << endl;
-        // for (auto el : mp) {
-        //     cout << el.first << " " << el.second << endl;
-        // }
 
-        int count = 0;
-        for (auto el : mp) {
-            if (el.first >= val) {
-                break;
-            }
-            count += el.second;
-        }
-        return count <= m;
+        // if the total number of increments required for
+        // each element is larger than possible, return false
+        return moves <= m;
     };
 
-    for (int i = 1; i <= 10; i++) {
-        cout << i << " " << check(i) << endl;
-    }
-
-    // int l = 0, r = 1000000001;
-    // // find the last True
-    // // lets use the bs: r-l>1
-    // while (r - l > 1) {
-    //     int m = (l + r) >> 1;
-    //     if (check(m)) {
-    //         l = m;
-    //     } else {
-    //         r = m;
-    //     }
+    // for (int i = 1; i <= 11; i++) {
+    //     cout << i << "->" << check2(i) << endl;
     // }
-    // cout << l << endl;
+
+    int l = 0,
+        r = 2000000001;
+    // find the last True
+    // lets use the bs: r-l>1
+    while (r - l > 1) {
+        int m = (l + r) >> 1;
+        if (check(m)) {
+            l = m;
+        } else {
+            r = m;
+        }
+    }
+    cout << l << endl;
 }
 
 int32_t main() {

@@ -6,27 +6,36 @@ using namespace std;
 void solve() {
     int n, a, b;
     cin >> n >> a >> b;
-    set<vector<int>> factors;
-    for (int i = 1; i * i <= (6 * n); i++) {
-        if ((6 * n) % i == 0) {
-            factors.insert({i, (6 * n) / i});
-        }
+    if (a * b >= 6 * n) {
+        cout << a * b << endl
+             << a << " " << b << endl;
+        return;
     }
 
-    int ans = -1;
-    vector<int> fact;
-    for (auto fc : factors) {
-        int v1 = fc[0], v2 = fc[1];
-        if (v1 >= a && v2 >= b) {
-            if (ans > v1 * v2) {
-                ans = v1 * v2;
-                fact = {v1, v2};
-            }
-        }
+    bool swapped = false;
+    n *= 6;
+    if (a > b) {
+        swap(a, b);
+        swapped = true;
     }
 
-    cout << ans << endl;
-    cout << fact[0] << " " << fact[1] << endl;
+    int ans = LLONG_MAX;
+    int aa1 = a, bb1 = b;
+    for (int i = a; i * i <= n; i++) {
+        int j = (n + i - 1) / i;
+        if (i >= a && j >= b && i * j >= n && i * j < ans) {
+            ans = i * j;
+            aa1 = i;
+            bb1 = j;
+        }
+    }
+    cout << aa1 * bb1 << endl;
+    if (!swapped)
+        cout << aa1 << " " << bb1 << endl;
+    else
+        cout << bb1 << " " << aa1 << endl;
+
+    return;
 }
 
 int32_t main() {

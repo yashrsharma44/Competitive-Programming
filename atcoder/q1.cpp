@@ -1,69 +1,85 @@
 #include <bits/stdc++.h>
-#define ll long long int  
-
+#define int long long
 using namespace std;
 
-#define max 4000000000
+void solve() {
+    int n, m, big, small;
+    cin >> n >> m >> big >> small;
+    int count = 0;
+    vector<vector<int>> vis(n, vector<int>(m, 0));
 
-void bkt(ll x, set<ll> &visited){
+    function<void(int, int, int, int)> dfs = [&](int i, int j, int a, int b) {
+        if (i == n && a == 0 && b == 0) {
+            count++;
+            return;
+        }
 
-	if(visited.find(x) != visited.end() || x > max){
-		return;
-	}
-	if(x!=0)
-	visited.insert(x);
-	
-	if(x == 0){
-		for(ll i=1;i<=9;i++){
-			bkt(i, visited);
-		}
-	} else {
+        if (i >= n) return;
 
-		ll lastDigit = x%10;
-		if(lastDigit > 0){
-			bkt(10*x + lastDigit-1, visited);
-		}
-		bkt(10*x + lastDigit,visited);
-		if(lastDigit < 9){
-			bkt(10*x + lastDigit+1,visited);
-		}
-	}
+        if (vis[i][j] != 0) {
+            if (j + 1 < m) return dfs(i, j + 1, a, b);
+            return dfs(i + 1, 0, a, b);
+        }
 
+        // put 1x1
+        if (a > 0) {
+            if (j + 1 < m) {
+                vis[i][j] = 1;
+                dfs(i, j + 1, a - 1, b);
+                vis[i][j] = 0;
+            } else {
+                vis[i][j] = 1;
+                dfs(i + 1, 0, a - 1, b);
+                vis[i][j] = 0;
+            }
+        }
+
+        // put 2x1 horizontally
+        if (b > 0) {
+            if (j + 1 < m && vis[i][j + 1] == 0) {
+                vis[i][j] = 2;
+                vis[i][j + 1] = 2;
+
+                if (j + 2 < m)
+                    dfs(i, j + 2, a, b - 1);
+                else
+                    dfs(i + 1, 0, a, b - 1);
+
+                vis[i][j + 1] = 0;
+                vis[i][j] = 0;
+            }
+
+            // put 2x1 vertically
+            if (i + 1 < n && vis[i + 1][j] == 0) {
+                vis[i][j] = 2;
+                vis[i + 1][j] = 2;
+
+                if (j + 1 < m)
+                    dfs(i, j + 1, a, b - 1);
+                else
+                    dfs(i + 1, 0, a, b - 1);
+
+                vis[i][j] = 0;
+                vis[i + 1][j] = 0;
+            }
+        }
+    };
+
+    dfs(0, 0, small, big);
+
+    cout << count << endl;
 }
 
-void solve(){
+int32_t main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
-	ll k;
-	cin>>k;
+    int t;
+    // cin >> t;
+    t = 1;
 
-	set<ll> visited;
-	bkt(0, visited);
-
-	ll ans = -1;
-	ll i=1;
-	// visited.erase(visited.begin());
-	for(ll el : visited){
-		if(i == k){
-			ans = el;
-			break;
-		}
-		i++;
-	}
-	cout<<ans<<endl;
-
-}
-
-int main(){
-
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-
-	ll t;
-	// cin>>t;
-	t=1;
-	while(t--){
-		solve();
-	}
-
+    while (t--) {
+        solve();
+    }
 }

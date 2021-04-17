@@ -1,50 +1,33 @@
-#include <bits/stdc++.h>
-#define ll long long int  
-
+#include <algorithm>
+#include <cmath>
+#include <functional>
+#include <iostream>
+#include <map>
+#include <queue>
+#include <set>
+#include <string>
+#include <vector>
 using namespace std;
 
-void solve(){
+const double PI = 3.14159265358979;
 
-	ll n,m;
-	cin>>n>>m;
+int n;
+double px, py;
+double qx, qy;
 
-	vector<ll> a;
-	ll nn = n;
-	ll sum = 0;
-	while(nn--){
-		ll vl;
-		cin>>vl;
-		sum+=vl;
-		a.push_back(vl);
-	}
+int main() {
+    cin >> n >> px >> py >> qx >> qy;
+    double rx = (px + qx) / 2.0L;
+    double ry = (py + qy) / 2.0L;
 
-	sort(a.begin(), a.end(),greater<ll>());
-	ll i=0;
-	double frac = sum / (4 * m);
-	while(i<m){
+    double lens = sqrt((rx - px) * (rx - px) + (ry - py) * (ry - py));
+    cout << lens << endl;
+    double sazimuth = atan2(py - ry, px - rx);
 
-		if((a[i] * 4 * m) < sum){
-			cout<<"No"<<endl;
-			return;
-		}
-		i++;
-	}
+    double qazimuth = sazimuth + 2.0 * PI / n;
+    double hy = lens * sin(qazimuth), hx = lens * cos(qazimuth);
+    hx += rx, hy += ry;
 
-	cout<<"Yes"<<endl;
-	return;
-}
-
-int main(){
-
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-
-	ll t;
-	// cin>>t;
-		t=1;
-
-	while(t--){
-		solve();
-	}
-
+    printf("%.12f %.12f\n", hx, hy);
+    return 0;
 }
