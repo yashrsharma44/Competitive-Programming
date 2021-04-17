@@ -10,48 +10,25 @@ void solve() {
     for (int i = 0; i < n; i++) {
         cin >> a[i];
     }
-    map<int, int> count;
-    for (auto el : a) count[el]++;
 
-    vector<vector<int>> arr;
-    for (auto el : count) {
-        arr.push_back({el.first, el.second});
-    }
+    sort(a.begin(), a.end());
 
-    sort(arr.begin(), arr.end());
-    // for (auto el : arr) {
-    //     for (int i = 0; i < n; i++) {
-    //         if (el[0] == a[i]) {
-    //             cout << i + 1 << " " << a[i] << endl;
-    //             break;
-    //         }
-    //     }
-    // }
+    // If we can move the max/min of the subarray to the last, the discrepancy would be minimized
+    // this reequires us to chose some combination of numbers as the last element subsequently for building the array
+    // or in other words -
+    // [...,a1,a2,a3], here we have the option to chose one element(min, max) as the next element
+    // a dp solution would work in this case
+    vector<vector<int>> cache(2000, vector<int>(2000, -1));
 
-    int ans = LLONG_MAX;
-    int max_ = arr.back()[0];
+    function<int(int, int)> dp = [&](int l, int r) {
+        if (l >= r) return 0LL;
+        if (cache[l][r] != -1) return cache[l][r];
 
-    vector<int> preCount({0});
-    vector<int> pre({0});
-    for (auto el : arr) {
-        pre.push_back(pre.back() + el[0] * el[1]);
-        preCount.push_back(preCount.back() + el[1]);
-    }
-    int size = arr.size();
-    for (int i = 0; i < size; i++) {
-        int prev = pre[i];
-        int next = pre.back() - pre[i + 1];
+        int sum = a[r] - a[l];
+        return cache[l][r] = min(sum + dp(l + 1, r), sum + dp(l, r - 1));
+    };
 
-        int sum = next - (n - preCount[i + 1]) * arr[i][0];
-        sum += (preCount[i]) * max_ - prev;
-
-        if (sum < ans) {
-            ans = min(ans, sum);
-            // cout << arr[i][0] << " " << arr[i][1] << endl;
-        }
-    }
-
-    cout << ans << endl;
+    cout << dp(0, n - 1) << endl;
 }
 
 int32_t main() {
