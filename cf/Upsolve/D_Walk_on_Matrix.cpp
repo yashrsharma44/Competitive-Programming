@@ -1,0 +1,26 @@
+#include <bits/stdc++.h>
+#define int long long
+#define MOD 100000007
+using namespace std;
+
+void solve() {
+    int k;
+    cin >> k;
+    cout << 2 << " " << 3 << endl;
+    cout << (1 << 17) + k << " " << (1 << 17) << " " << 0 << endl;
+    cout << k << " " << (1 << 17) + k << " " << k << endl;
+}
+
+int32_t main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    int t;
+    // cin >> t;
+    t = 1;
+
+    while (t--) {
+        solve();
+    }
+}

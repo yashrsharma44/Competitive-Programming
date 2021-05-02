@@ -1,0 +1,1 @@
+{"name":"Local: end","url":"/home/yash/comp/cf/Upsolve/end.cpp","tests":[{"id":1619102525170,"input":"5\noxxxx\nx...x\nx...x\nx...x\nxxxxo","output":""},{"id":1619103020071,"input":"6\n.x.x..\nx.x.x.\n.xo..x\nx..ox.\n.x.x.x\n..x.x.","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/yash/comp/cf/Upsolve/end.cpp","group":"local","local":true}

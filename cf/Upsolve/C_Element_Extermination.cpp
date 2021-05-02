@@ -108,7 +108,7 @@ void solve() {
     for (int i = 1; i < a[0]; i++) {
         int p = pos[i];
         if (!bgR[p])
-            ok = false;
+            ok = false;C
     }
     if (ok) {
         cout << "YES" << endl;
