@@ -53,4 +53,23 @@ using namespace __gnu_pbds;
 
 #define ordered_set tree<pair<int, int>, null_type, less<pair<int, int>>, rb_tree_tag, tree_order_statistics_node_update>
 
-// --------------------------------------
+// ----------------------------------------
+// --------------SEGTREE WITH MIN-----------
+
+const int maxn = 1 << 18;
+pair<int, int> tree[maxn * 2];
+
+void build(const vector<int> &a, int n) {
+    for (int i = 0; i < n; i++) tree[maxn + i] = {a[i], i};
+    for (int i = maxn - 1; i > 0; i--)
+        tree[i] = max(tree[i * 2], tree[i * 2 + 1]);
+}
+
+int get(int l, int r) {
+    pair<int, int> ans{-1, -1};
+    for (l += maxn, r += maxn + 1; l < r; l >>= 1, r >>= 1) {
+        if (l & 1) ans = max(ans, tree[l++]);
+        if (r & 1) ans = max(ans, tree[--r]);
+    }
+    return ans.second;
+}
