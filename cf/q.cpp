@@ -1,57 +1,56 @@
 #include <bits/stdc++.h>
-
 using namespace std;
-#define ll long long int
-#define rep(i,n) for(i=0;i<(n);i++)
-#define pb push_back
-#define mp make_pair
-#define ff first
-#define ss second
-#define all(c) c.begin(),c.end()
-#define endl "\n"
-typedef pair< ll, ll > lpair;
+#define ll long long
 
-void solve()
-{
-    string s;
-    cin >> s;
-
-    ll i, j, n = s.length();
-    vector< ll > freq(26);
-
-    rep(i,s.length()) freq[s[i] - 'a']++;
-
-    ll cnt1 = 0;
-    rep(i,26) cnt1 = max(cnt1, freq[i]);
-
-    vector< vector < ll > > dp(26, vector< ll >(26, 0));
-
-    freq.clear();
-    freq.resize(26);
-    freq[s[0] - 'a']++;
-    for(i = 1; i < n; i++)
-    {
-        for(j = 0; j < 26; j++)
-        {
-            dp[s[i] - 'a'][j] += freq[j];
-        }
-        freq[s[i] - 'a']++;
+int solve(vector<int> B, int x, int N) {
+    vector<int> A(N + 1, 0);
+    for (int i = 0; i < N; i++) {
+        A[i + 1] = B[i];
+    }
+    vector<vector<int>> prev(N + 2, vector<int>(N + 2, 0));
+    for (int i = 0; i <= N + 1; i++) {
+        prev[i][] = i;
     }
 
-    ll cnt2 = 0;
-    rep(i, 26) rep(j, 26) cnt2 = max(cnt2, dp[i][j]);
+    for (int i = 1; i <= N; i++) {
+        for (int j = 1; j <= N; j++) {
+            if (prev[i][j] == 1) {
+                prev[i][j + 1] = N;
+            } else {
+                prev[i][j + 1] = prev[i][j] - 1;
+            }
+        }
+    }
 
-    cout << max(cnt1, cnt2) << endl;
+    vector<vector<int>> cost(N + 1, vector<int>(N + 1, 0));
+    for (int i = 1; i <= N; i++) {
+        cost[i][0] = A[i];
+    }
+
+    for (int i = 1; i <= N; i++) {
+        for (int j = 1; j < N; j++) {
+            cost[i][j + 1] = min(cost[i][j], A[prev[i][j + 1]]);
+        }
+    }
+
+    int ans = INT_MAX;
+    for (int t = 0; t <= N; t++) {
+        int sm = 0;
+        for (int i = 1; i <= N; i++) {
+            sm += cost[i][t];
+        }
+
+        ans = min(ans, sm + t * x);
+    }
+
+    return ans;
 }
 
-int main()
-{
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
 
-    ll t = 1;
-    // cin >> t;
-    while(t--) solve();
-
+    auto ans = solve({50, 1, 50}, 5, 3);
+    cout << ans << endl;
     return 0;
 }

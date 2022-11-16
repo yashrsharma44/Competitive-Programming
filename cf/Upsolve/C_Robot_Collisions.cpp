@@ -8,37 +8,59 @@ void solve() {
     cin >> n >> m;
     vector<int> a(n);
     for (int i = 0; i < n; i++) cin >> a[i];
-    vector<char> type(n);
-    for (int i = 0; i < n; i++) cin >> type[i];
-
-    // treat even and odd positions independently
-    vector<pair<int, char>> even, odd;
+    vector<int> type(n);
     for (int i = 0; i < n; i++) {
-        if (i % 2 == 0)
-            even.push_back({a[i], type[i]});
-        else
-            odd.push_back({a[i], type[i]});
+        char cc;
+        cin >> cc;
+        type[i] = (cc == 'L' ? 1 : -1);
     }
 
-    sort(even.begin(), even.end());
-    sort(odd.begin(), odd.end());
-
     vector<int> ans(n, -1);
-    auto cal = [&](vector<pair<int, char>> &arr) {
-        // check for (R L)
-        // move those first
-        for (int i = 1; i < arr.size();) {
-            if (arr[i].second == 'L' && arr[i - 1].second == 'R') {
-                int p1 = arr[i - 1].first;
-                int p2 = arr[i].first;
-
-                ans[p1] = (p2 - p1) >> 1;
-                ans[p2] = (p2 - p1) >> 1;
-                i += 2;
-            } else
-                i++;
+    for (int par = 0; par <= 1; par++) {
+        vector<vector<int>> ds;
+        for (int i = 0; i < n; i++) {
+            if (a[i] % 2 == par) {
+                ds.push_back({a[i], i});
+            }
         }
-    };
+
+        sort(ds.begin(), ds.end());
+
+        // lets use a stack to check if a left going element clashes with
+        // a right going element in a stack
+        vector<int> st;
+        for (auto el : ds) {
+            int i = el[1];
+            int dir = type[i];
+
+            if (dir == 1) {
+                if (st.empty()) {
+                    st.push_back(i);
+                } else {
+                    int j = st.back();
+                    st.pop_back();
+
+                    ans[i] = ans[j] = (a[i] - (type[j] == -1 ? a[j] : -a[j])) / 2;
+                }
+            } else {
+                st.push_back(i);
+            }
+        }
+
+        // consume all the elements from the stack
+        while (st.size() > 1) {
+            int i = st.back();
+            st.pop_back();
+            int j = st.back();
+            st.pop_back();
+
+            ans[i] = ans[j] = (2 * m - a[i] - (type[j] == -1 ? a[j] : -a[j])) / 2;
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        cout << ans[i] << " \n"[i == n - 1];
+    }
 }
 
 int32_t main() {
@@ -47,8 +69,8 @@ int32_t main() {
     cout.tie(NULL);
 
     int t;
-    // cin >> t;
-    t = 1;
+    cin >> t;
+    // t = 1;
 
     while (t--) {
         solve();

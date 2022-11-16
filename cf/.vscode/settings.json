@@ -1,8 +1,10 @@
 {
     "files.associations": {
         "*.cpp": "cpp",
+        "*.js": "javascript",
         "ostream": "cpp",
         "cmath": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "iostream": "cpp"
     }
 }

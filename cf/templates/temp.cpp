@@ -73,3 +73,25 @@ int get(int l, int r) {
     }
     return ans.second;
 }
+
+// ---------------------------------------
+// -------- logn POW ---------------------
+
+auto mul = [&](int a, int b) {
+    return ((a % MOD) * (b % MOD)) % MOD;
+};
+
+int poww(int b, int e) {
+    if (e <= 0) return 1;
+    if (b <= 0) return 0;
+
+    int ans = 1;
+    while (e) {
+        if (e & 1) {
+            ans = mul(ans, b);
+        }
+        b = mul(b, b);
+        e >>= 1;
+    }
+    return ans;
+}

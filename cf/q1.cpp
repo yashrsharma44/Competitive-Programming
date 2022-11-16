@@ -2,56 +2,40 @@
 #define int long long
 using namespace std;
 
-int dp(vector<int> &b, vector<vector<int> > &arr, int i, int j) {
-    int n = arr.size(), m = b.size();
-    if (m == 0) return 0;
-	
-	int ans = 0;
-
-    // two choice, put the val in box, or leave it
-	for(int j=0;j<n;j++){
-
-	}
-	
-    return ans;
-}
-
-bool comp(vector<int> &p1, vector<int> &p2) {
-    return p1[1] > p2[1];
-}
-
-void solve() {
-    int n, m, q;
-    cin >> n >> m >> q;
-    vector<vector<int> > arr(n, vector<int>(2, 0));
-    for (int i = 0; i < n; i++) {
-        cin >> arr[i][0] >> arr[i][1];
+void dfs(int node, vector<int> &comp, vector<int> *adj, vector<bool> &vis) {
+    for (auto nei : adj[node]) {
+        if (vis[nei]) continue;
+        vis[nei] = true;
+        comp.push_back(nei);
+        dfs(nei, comp, adj, vis);
     }
-    sort(arr.begin(), arr.end(), comp);
-    vector<int> b(m);
-    for (int i = 0; i < m; i++) cin >> b[i];
-    vector<vector<int> > quer(q);
-    for (int i = 0; i < q; i++) {
-        int l, r;
-        cin >> l >> r;
-        // remove b[l:r+1]
-        vector<int> bb;
-        for (int i = 0; i < m; i++) {
-            if (i + 1 >= l && i + 1 <= r) continue;
-            bb.push_back(b[i]);
+};
+
+int solve(int graph_nodes, vector<int> graph_from, vector<int> graph_to) {
+    vector<int> adj[graph_nodes + 1];
+
+    for (int i = 0; i < graph_from.size(); i++) {
+        adj[graph_from[i]].push_back(graph_to[i]);
+        adj[graph_to[i]].push_back(graph_from[i]);
+    }
+    vector<bool> vis(graph_nodes + 1, false);
+    int answer = 0;
+    for (int el = 1; el <= graph_nodes; el++) {
+        if (!vis[el]) {
+            vis[el] = true;
+            vector<int> comp({el});
+            dfs(el, comp, adj, vis);
+
+            // compute size
+            int val = comp.size();
+            answer += ceil(sqrt(val));
         }
-
-        // prepare the optimum comb for max value
-        vector<bool> vis(bb.size(), false);
-        cout << dp(bb, arr, 0, vis) << endl;
     }
+
+    return answer;
 }
 
 int32_t main() {
-    int t;
-    // cin>>t;
-    t = 1;
-    while (t--) {
-        solve();
-    }
+    auto ans = solve(10, {1, 1, 2, 3, 7}, {2, 3, 4, 5, 8});
+    cout << ans << endl;
 }

@@ -1,60 +1,75 @@
-#include<bits/stdc++.h>
-#define ll long long int
+#include <bits/stdc++.h>
+#define int long long
 using namespace std;
 
-ll dfs(vector<ll> *adj, ll root, vector<bool> &visited){
+vector<int> solve(int n, vector<int> arrTime, vector<int> direction) {
+    int curr = 0;
+    vector<vector<int>> entry, exit;
+    for (int i = 0; i < n; i++) {
+        if (direction[i] == 1)
+            exit.push_back({arrTime[i], i});
+        else
+            entry.push_back({arrTime[i], i});
+    }
 
-	if(visited[root]){
-		return 0;
-	}
+    reverse(entry.begin(), entry.end());
+    reverse(exit.begin(), exit.end());
 
-	visited[root] = true;
+    int last = -1;
+    vector<int> ans(n, -1);
+    for (int i = 0; i < n; i++) {
+        if (arrTime[i] >= curr - 1) {
+            // if prev is exit
+            if (last == 1) {
+                // consume exit
+                if (exit.size() > 0) {
+                    ans[exit.back()[1]] = curr;
+                    last = 1;
+                    curr += 1;
+                    exit.pop_back();
+                } else if (entry.size() > 0) {
+                    ans[entry.back()[1]] = curr;
+                    last = 0;
+                    curr += 1;
+                    entry.pop_back();
+                }
+            } else {
+                if (entry.size() > 0) {
+                    ans[entry.back()[1]] = curr;
+                    last = 0;
+                    curr += 1;
+                    entry.pop_back();
+                } else if (exit.size() > 0) {
+                    ans[exit.back()[1]] = curr;
+                    last = 1;
+                    curr += 1;
+                    exit.pop_back();
+                }
+            }
 
-	ll maxLen = 0;
+        } else {
+            // consume exit if present
+            if (exit.size() > 0) {
+                ans[exit.back()[1]] = curr;
+                last = 1;
+                curr += 1;
+                exit.pop_back();
+            } else if (entry.size() > 0) {
+                ans[entry.back()[1]] = curr;
+                last = 0;
+                curr += 1;
+                entry.pop_back();
+            }
+        }
+    }
 
-	for(ll neigh : adj[root]){
-		// visited[neigh] = true;
-		maxLen = max(maxLen, dfs(adj, neigh, visited));
-	}
-
-	return maxLen + 1;
-
+    return ans;
 }
 
-void solve(){
-
-	ll n;
-	cin>>n;
-	string s;
-	cin>>s;
-
-	ll maxDist = -1;
-
-	for(ll i=0;i<n;i++){
-
-		if(s[i] == '1'){
-			// cout<<"CMAX"<<maxDist<<endl;
-			maxDist = max(maxDist, max(abs(i - 0 + 1), abs(i - n)));
-
-			
-			// cout<<abs(i - 0 + 1)<<" "<<abs(i - n)<<endl;
-		}
-	}
-
-	if(maxDist == -1){
-		cout<<n<<endl;
-		return;
-	}
-
-	cout<<(2*maxDist)<<endl;
-}
-
-int main(){
-
-	ll t;
-	cin>>t;
-
-	while(t--){
-		solve();
-	}
+int32_t main() {
+    auto ans = solve(4, {0, 0, 1, 5}, {0, 1, 1, 0});
+    for (auto el : ans) {
+        cout << el << " ";
+    }
+    cout << endl;
 }

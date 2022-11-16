@@ -1,0 +1,7 @@
+5
+educat,5
+trav,-3
+know,3
+train,-2
+train,-2
+pe,welcome,burger,dance,slice
